@@ -1,0 +1,123 @@
+body {
+    background-color: #F8F8F8;
+    color: #3333333;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 14px;
+    margin: 15px;
+}
+
+label {
+    font-weight: bold;
+}
+
+input, select, textarea, .input {
+    text-align: center;
+    vertical-align: middle;
+    background: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    display: inline-block;
+    font-size: inherit;
+    width: auto;
+    box-sizing: border-box;
+}
+
+select {
+    padding: 1px;
+}
+
+input, textarea, .input {
+    padding: 2px;
+}
+
+input[type=radio] {
+    padding: 0;
+    border: 0;
+    margin: 0 3px 0 10px;
+    vertical-align: text-top;
+}
+
+input + input {
+    margin-left: -1px;
+}
+
+input[type=button] {
+    height: 21px;
+}
+
+table, ul {
+    border-collapse: collapse;
+    border: 1px solid #CCCCCC;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+table td,
+ul li {
+    text-align: center;
+    padding: 7px 10px;
+    list-style: none;
+}
+
+table tr:nth-child(odd),
+ul li:nth-child(odd) {
+    background: #EEEEEE;
+}
+
+table tr:nth-child(even),
+ul li:nth-child(even) {
+    background: #DDDDDD;
+}
+
+table .field {
+    padding: 4px;
+}
+
+table .sep {
+    border-right: 1px solid #CCCCCC;
+}
+
+.input {
+    width: 3em;
+}
+
+.inputTiny {
+    width: 19px;
+}
+
+.head {
+    font-weight: bold;
+}
+
+.sheetPanel {
+    float: left;
+    width: 540px;
+    border: 1px solid #CCCCCC;
+    background: #FFFFFF;
+    padding: 20px;
+}
+
+.editPanel {
+    float: right;
+    width: 440px;
+    border: 1px solid #CCCCCC;
+    background: #EEEEEE;
+    padding: 0 20px;
+}
+
+.fullWidth {
+    width: 100%;
+}
+
+.floatLeft {
+    float: left;
+    clear: left;
+}
+
+.floatRight {
+    float: right;
+    clear: right;
+}
+
