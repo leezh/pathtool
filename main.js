@@ -78,6 +78,13 @@ function updateStats() {
         var ranks = ref.classes[data.classLevels[i]].ranks;
         ranks += cache.natAbilities[ref.classes[data.classLevels[i]].rankAbility];
         cache.maxRanks += ranks;
+        if (data.favoredClass === data.classLevels[i]) {
+            if (data.favoredClassBonus[i] === 'hp') {
+                cache.maxHP += 1;
+            } else if (data.favoredClassBonus[i] === 'skill') {
+                cache.maxRanks += 1;
+            }
+        }
     }
     $('.update').trigger('update');
 }
@@ -302,6 +309,15 @@ function buildPointBuyTable() {
         })
         .on('update', function(){
             $(this).val(data.classLevels[data.level - 1]);
+        });
+
+    $('#spanFavoredBonus').addClass('update')
+        .on('update', function(){
+            if (data.favoredClass === data.classLevels[data.level - 1]) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
         });
 
     $('input[name=favoredBonus]').addClass('update')
