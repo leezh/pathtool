@@ -266,6 +266,12 @@ function buildPage() {
     $('#selectLevelClass').addClass('update')
         .change(function() {
             data.levels[data.level - 1].chosenClass = this.value;
+            var hitDie = ref.classes[this.value].hitDie;
+            if (data.level === 1) {
+                data.levels[data.level - 1].hitDie = hitDie;
+            } else {
+                data.levels[data.level - 1].hitDie = Math.floor(Math.random() * hitDie) + 1;
+            }
             updateStats();
         })
         .on('update', function(){
@@ -294,7 +300,7 @@ function buildPage() {
 
     $('#classHitDie').addClass('update')
         .on('update', function() {
-            $(this).text(ref.classes[data.levels[data.level-1].chosenClass].hitDie);
+            $(this).text(ref.classes[data.levels[data.level - 1].chosenClass].hitDie);
         });
 
     $('#hitDieValue').addClass('update')
@@ -309,6 +315,10 @@ function buildPage() {
 
     $('#hitDieRoll').addClass('update')
         .click(function() {
+            if (data.level > 1) {
+                var max = ref.classes[data.levels[data.level - 1].chosenClass].hitDie;
+                data.levels[data.level - 1].hitDie = Math.floor(Math.random() * max) + 1;
+            }
         })
         .on('update', function() {
             if (data.level === 1) {
