@@ -12,7 +12,7 @@ label {
     font-weight: bold;
 }
 
-input, select, textarea, .input {
+input, select, textarea {
     text-align: center;
     vertical-align: middle;
     background: #FFFFFF;
@@ -20,30 +20,26 @@ input, select, textarea, .input {
     display: inline-block;
     font-size: inherit;
     width: auto;
-    box-sizing: border-box;
+    height: 18px;
+    padding: 1px 5px;
+    box-sizing: content-box;
 }
 
-select {
-    padding: 1px;
-}
-
-input, textarea, .input {
-    padding: 2px;
+input::-moz-focus-inner {
+    padding: 0;
+    border: 0;
 }
 
 input[type=radio] {
     padding: 0;
     border: 0;
     margin: 0 3px 0 10px;
+    height: auto;
     vertical-align: text-top;
 }
 
 input + input {
     margin-left: -1px;
-}
-
-input[type=button] {
-    height: 21px;
 }
 
 table, ul {
@@ -72,7 +68,7 @@ ul li:nth-child(even) {
 }
 
 table .field {
-    padding: 4px;
+    padding: 2px;
 }
 
 table .sep {
@@ -81,10 +77,12 @@ table .sep {
 
 .input {
     width: 3em;
+    padding: 1px;
 }
 
 .inputTiny {
-    width: 19px;
+    width: 18px;
+    padding: 1px;
 }
 
 .head {
