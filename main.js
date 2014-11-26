@@ -117,46 +117,7 @@ function SelectBuilder(element) {
     }
 }
 
-function buildAbilityTable() {
-    var abilities = new TableBuilder($('#abilities'));
-    abilities.createRow();
-    abilities.createCell();
-    abilities.createCell().text('Score').addClass('head');
-    abilities.createCell().text('Mod').addClass('head');
-    $.each(ref.abilities, function(i, ability) {
-        abilities.createRow();
-        abilities.createCell().text(ref.abilityShortName[ability]).addClass('head');
-        abilities.createCell().addClass('update')
-            .on('update', function() {
-                $(this).text(cache.abilityScore[ability]);
-            });
-        abilities.createCell().addClass('update')
-            .on('update', function() {
-                $(this).text(cache[ability]);
-            });
-    });
-
-    var skills = new TableBuilder($('#skills'));
-    skills.createRow();
-    skills.createCell().text('Skill').addClass('head');
-    skills.createCell().text('Bonus').addClass('head');
-    $.each(ref.skills, function(skill, values) {
-        skills.createRow();
-        skills.createCell().text(values.name + (values.untrained ? '' : '*'))
-        skills.createCell();
-    });
-
-    var traits = $('#traits');
-    traits.addClass('update')
-        .on('update', function() {
-            traits.find('li.item').remove();
-            $.each(cache.traits, function(i, trait) {
-                traits.append($(document.createElement('li')).addClass('item').text(trait));
-            });
-        });
-}
-
-function buildPointBuyTable() {
+function buildPage() {
     $('.selectAbility').each(function() {
         var builder = new SelectBuilder($(this));
         $.each(ref.abilities, function(i, ability) {
@@ -331,16 +292,10 @@ function buildPointBuyTable() {
             $(this).prop('checked', (this.value === data.favoredClassBonus[data.level - 1]));
         });
 
-    $('.maxHP').addClass('update')
-        .on('update', function() {
-            $(this).val(cache.maxHP);
-        });
-
     $('#classHitDie').addClass('update')
         .on('update', function() {
             $(this).text(ref.classes[data.classLevels[data.level-1]].hitDie);
         });
-
 
     $('#hitDieValue').addClass('update')
         .on('update', function() {
@@ -362,6 +317,24 @@ function buildPointBuyTable() {
                 $(this).show();
             }
         });
+
+    var abilities = new TableBuilder($('#abilities'));
+    abilities.createRow();
+    abilities.createCell();
+    abilities.createCell().text('Score').addClass('head');
+    abilities.createCell().text('Mod').addClass('head');
+    $.each(ref.abilities, function(i, ability) {
+        abilities.createRow();
+        abilities.createCell().text(ref.abilityShortName[ability]).addClass('head');
+        abilities.createCell().addClass('update')
+            .on('update', function() {
+                $(this).text(cache.abilityScore[ability]);
+            });
+        abilities.createCell().addClass('update')
+            .on('update', function() {
+                $(this).text(cache[ability]);
+            });
+    });
 
     var skills = new TableBuilder($('#skillRanks'));
     skills.createRow();
@@ -435,11 +408,29 @@ function buildPointBuyTable() {
         .on('update', function() {
             $(this).val(cache.totalRanks);
         });
+
+    var skills = new TableBuilder($('#skills'));
+    skills.createRow();
+    skills.createCell().text('Skill').addClass('head');
+    skills.createCell().text('Bonus').addClass('head');
+    $.each(ref.skills, function(skill, values) {
+        skills.createRow();
+        skills.createCell().text(values.name + (values.untrained ? '' : '*'))
+        skills.createCell();
+    });
+
+    var traits = $('#traits');
+    traits.addClass('update')
+        .on('update', function() {
+            traits.find('li.item').remove();
+            $.each(cache.traits, function(i, trait) {
+                traits.append($(document.createElement('li')).addClass('item').text(trait));
+            });
+        });
 }
 
 $(document).ready(function() {
-    buildAbilityTable();
-    buildPointBuyTable();
+    buildPage();
     updateStats();
 });
 

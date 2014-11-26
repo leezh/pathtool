@@ -64,18 +64,14 @@
             <p>
                 <label for="selectLevelClass">Class:</label>
                 <select id="selectLevelClass" class="selectClass"></select>
+            </p>
+            <p>
+                <label for="hitDieValue">Hit Die d<span id="classHitDie"></span>:</label>
+                <input id="hitDieValue" type="text" class="input" /><input id="hitDieRoll" type="button" value="Reroll" />
                 <span id="spanFavoredBonus" class="floatRight">
                     <label>Favoured Class:</label>
                     <input id="favoredBonusHP" type="radio" name="favoredBonus" value="hp" /><label for="favoredBonusHP">+1 HP</label>
                     <input id="favoredBonusSkill" type="radio" name="favoredBonus" value="skill" /><label for="favoredBonusSkill">+1 Skill Rank</label>
-                </span>
-            </p>
-            <p>
-                <label for="">Max HP:</label>
-                <input type="text" class="input maxHP" readonly />
-                <span class="floatRight">
-                    <label for="hitDieValue">Hit Die d<span id="classHitDie"></span>:</label>
-                    <input id="hitDieValue" type="text" class="input" /><input id="hitDieRoll" type="button" value="Reroll" />
                 </span>
             </p>
         </div>
