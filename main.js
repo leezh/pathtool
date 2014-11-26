@@ -37,6 +37,15 @@ function updateStats() {
         cache.natAbilities[ability] = cache[ability];
     });
 
+    while (data.levels.length < data.level) {
+        data.levels.push({
+            hitDie: Math.floor(Math.random() * ref.classes[data.favoredClass].hitDie) + 1,
+            ranks: {},
+            chosenClass: data.favoredClass,
+            favoredClassBonus: 'hp'
+        });
+    }
+
     cache.ranks = {};
     cache.previousRanks = {};
     cache.classSkills = {};
@@ -118,6 +127,15 @@ function SelectBuilder(element) {
 }
 
 function buildPage() {
+    $('#startingInfo').addClass('update')
+        .on('update', function() {
+            if (data.level > 1) {
+                $(this).hide();
+            } else {
+                $(this).show();
+            }
+        });
+
     $('.selectAbility').each(function() {
         var builder = new SelectBuilder($(this));
         $.each(ref.abilities, function(i, ability) {
@@ -262,6 +280,10 @@ function buildPage() {
                 $(this).hide();
             }
         });
+    $('#levelDisplay').addClass('update')
+        .on('update', function(){
+            $(this).text(data.level);
+        });
 
     $('#selectLevelClass').addClass('update')
         .change(function() {
@@ -318,6 +340,7 @@ function buildPage() {
             if (data.level > 1) {
                 var max = ref.classes[data.levels[data.level - 1].chosenClass].hitDie;
                 data.levels[data.level - 1].hitDie = Math.floor(Math.random() * max) + 1;
+                updateStats();
             }
         })
         .on('update', function() {
@@ -325,6 +348,36 @@ function buildPage() {
                 $(this).hide();
             } else {
                 $(this).show();
+            }
+        });
+
+    $('#levelUp').addClass('update')
+        .click(function() {
+            if (data.level < 20) {
+                data.level++;
+                updateStats();
+            }
+        })
+        .on('update', function() {
+            if (data.level >= 20) {
+                $(this).hide();
+            } else {
+                $(this).show();
+            }
+        });
+
+    $('#levelDown').addClass('update')
+        .click(function() {
+            if (data.level > 1) {
+                data.level--;
+                updateStats();
+            }
+        })
+        .on('update', function() {
+            if (data.level > 1) {
+                $(this).show();
+            } else {
+                $(this).hide();
             }
         });
 

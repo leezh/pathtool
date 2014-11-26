@@ -59,8 +59,8 @@
                 </span>
             </p>
         </div>
-        <div id="level1">
-            <h1>Level 1</h1>
+        <div id="levelInfo">
+            <h1>Level <span id="levelDisplay"></span></h1>
             <p>
                 <label for="selectLevelClass">Class:</label>
                 <select id="selectLevelClass" class="selectClass"></select>
@@ -73,6 +73,9 @@
                     <input id="favoredBonusHP" type="radio" name="favoredBonus" value="hp" /><label for="favoredBonusHP">+1 HP</label>
                     <input id="favoredBonusSkill" type="radio" name="favoredBonus" value="skill" /><label for="favoredBonusSkill">+1 Skill Rank</label>
                 </span>
+            </p>
+            <p>
+                <input id="levelUp" type="button" value="Level Up" /><input id="levelDown" type="button" value="Level Down" />
             </p>
         </div>
     </div>
