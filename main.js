@@ -336,6 +336,12 @@ function buildPointBuyTable() {
             $(this).val(cache.maxHP);
         });
 
+    $('#classHitDie').addClass('update')
+        .on('update', function() {
+            $(this).text(ref.classes[data.classLevels[data.level-1]].hitDie);
+        });
+
+
     $('#hitDieValue').addClass('update')
         .on('update', function() {
             $(this).val(data.hitDie[data.level - 1]);
