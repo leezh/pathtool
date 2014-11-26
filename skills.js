@@ -89,6 +89,76 @@ addData(ref.skills, 'intimidate', {
     'untrained': true
 });
 
+addData(ref.skills, 'knowArcana', {
+    'name': 'Know. Arcana',
+    'ability': 'int',
+    'armor_check': false,
+    'untrained': false
+});
+
+addData(ref.skills, 'knowDungeoneering', {
+    'name': 'Know. Dungeoneering',
+    'ability': 'int',
+    'armor_check': false,
+    'untrained': false
+});
+
+addData(ref.skills, 'knowEngineering', {
+    'name': 'Know. Engineering',
+    'ability': 'int',
+    'armor_check': false,
+    'untrained': false
+});
+
+addData(ref.skills, 'knowGeography', {
+    'name': 'Know. Geography',
+    'ability': 'int',
+    'armor_check': false,
+    'untrained': false
+});
+
+addData(ref.skills, 'knowHistory', {
+    'name': 'Know. History',
+    'ability': 'int',
+    'armor_check': false,
+    'untrained': false
+});
+
+addData(ref.skills, 'knowLocal', {
+    'name': 'Know. Local',
+    'ability': 'int',
+    'armor_check': false,
+    'untrained': false
+});
+
+addData(ref.skills, 'knowNature', {
+    'name': 'Know. Nature',
+    'ability': 'int',
+    'armor_check': false,
+    'untrained': false
+});
+
+addData(ref.skills, 'knowNobility', {
+    'name': 'Know. Nobility',
+    'ability': 'int',
+    'armor_check': false,
+    'untrained': false
+});
+
+addData(ref.skills, 'knowPlanes', {
+    'name': 'Know. Planes',
+    'ability': 'int',
+    'armor_check': false,
+    'untrained': false
+});
+
+addData(ref.skills, 'knowReligion', {
+    'name': 'Know. Religion',
+    'ability': 'int',
+    'armor_check': false,
+    'untrained': false
+});
+
 addData(ref.skills, 'linguistics', {
     'name': 'Linguistics',
     'ability': 'int',
@@ -108,6 +178,13 @@ addData(ref.skills, 'perform', {
     'ability': 'cha',
     'armor_check': false,
     'untrained': true
+});
+
+addData(ref.skills, 'profession', {
+    'name': 'Profession',
+    'ability': 'wis',
+    'armor_check': false,
+    'untrained': false
 });
 
 addData(ref.skills, 'ride', {

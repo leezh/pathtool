@@ -401,7 +401,7 @@ function buildPage() {
 
     var skills = new TableBuilder($('#skillRanks'));
     skills.createRow();
-    skills.createCell().text('Skill').addClass('head');
+    skills.createCell().text('Skill').addClass('head alignLeft');
     skills.createCell().text('Bonus').addClass('head sep');
     skills.createCell().text('Ability').addClass('head');
     skills.createCell().text('Trained').addClass('head');
@@ -409,7 +409,7 @@ function buildPage() {
     skills.createCell().text('Ranks').addClass('head');
     $.each(ref.skills, function(skill, values) {
         skills.createRow();
-        skills.createCell().text(values.name + (values.untrained ? '' : '*'))
+        skills.createCell().addClass('alignLeft').text(values.name + (values.untrained ? '' : '*'))
         skills.createCell().addClass('update sep')
             .on('update', function() {
                 $(this).html(formatBonus(cache.skills[skill], (values.untrained ? false : '&ndash;')));

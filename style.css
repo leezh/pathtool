@@ -91,10 +91,10 @@ table .sep {
 
 .sheetPanel {
     float: left;
-    width: 540px;
+    width: 490px;
     border: 1px solid #CCCCCC;
     background: #FFFFFF;
-    padding: 20px;
+    padding: 5px 15px;
 }
 
 .editPanel {
@@ -102,7 +102,7 @@ table .sep {
     width: 440px;
     border: 1px solid #CCCCCC;
     background: #EEEEEE;
-    padding: 0 20px;
+    padding: 5px 15px;
 }
 
 .fullWidth {
@@ -112,10 +112,22 @@ table .sep {
 .floatLeft {
     float: left;
     clear: left;
+    margin-bottom: 1em;
+    margin-right: 1em;
 }
 
 .floatRight {
     float: right;
     clear: right;
+    margin-bottom: 1em;
+    margin-left: 1em;
+}
+
+.alignLeft {
+    text-align: left;
+}
+
+.alignRight {
+    text-align: right;
 }
 
