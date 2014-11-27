@@ -3,7 +3,24 @@ var data = {
     race: 'human',
     favoredClass: 'fighter',
     multitalentedClass: 'fighter',
-    base: {'str': 10, 'dex': 10, 'con': 10, 'int': 10, 'wis': 10, 'cha': 10, 'bonus': 0},
+    base: {
+        'str': 10,
+        'dex': 10,
+        'con': 10,
+        'int': 10,
+        'wis': 10,
+        'cha': 10,
+        'bonus': 0,
+        'upgrades': [0, 0, 0, 0, 0]
+    },
+    temp: {
+        'str': 0,
+        'dex': 0,
+        'con': 0,
+        'int': 0,
+        'wis': 0,
+        'cha': 0,
+    },
     levels: [{hitDie: 10, ranks: {}, chosenClass: 'fighter', favoredClassBonus: 'hp'}],
 };
 var cache = {};
@@ -21,22 +38,6 @@ function formatBonus(value, hideZero) {
 }
 
 function updateStats() {
-    cache = {};
-    cache.abilityScore = {};
-    cache.pointBuyCost = {};
-    cache.natAbilities = {};
-    $.each(ref.abilities, function(i, ability) {
-        var score = data.base[ability];
-        if (i == data.base.bonus) {
-            score += ref.races[data.race].statBonus;
-        }
-        score += ref.races[data.race][ability];
-        cache.abilityScore[ability] = score;
-        cache[ability] = Math.floor(0.5 * score - 5);
-        cache.pointBuyCost[ability] = ref.pointBuyCosts[String(data.base[ability])];
-        cache.natAbilities[ability] = cache[ability];
-    });
-
     while (data.levels.length < data.level) {
         data.levels.push({
             hitDie: Math.floor(Math.random() * ref.classes[data.favoredClass].hitDie) + 1,
@@ -46,11 +47,44 @@ function updateStats() {
         });
     }
 
-    cache.ranks = {};
-    cache.previousRanks = {};
-    cache.classSkills = {};
-    cache.skills = {};
-    cache.totalRanks = 0;
+    cache = {
+        abilities: {},
+        totalPointBuyCost: 0,
+        skills: {},
+        totalRanks: 0,
+        maxRanks: 0,
+        maxHP: 0
+    };
+    $.each(ref.abilities, function(i, ability) {
+        var score = data.base[ability];
+        score += ref.races[data.race][ability];
+        if (i === data.base.bonus) {
+            score += ref.races[data.race].statBonus;
+        }
+        for (var l = 1; l * 4 < data.levels; l++) {
+            if (i === data.upgrades[l]) {
+                score++;
+            }
+        }
+        var cost = ref.pointBuyCosts[String(data.base[ability])];
+        cache.abilities[ability] = {
+            natural: score,
+            naturalMod: Math.floor(0.5 * score - 5),
+            total: score + data.temp[ability],
+            cost: cost
+        };
+        if (cache.abilities.totalCost !== null) {
+            if (cost !== null) {
+                cache.abilities.totalCost += cost;
+            } else {
+                cache.abilities.totalCost = null;
+            }
+        }
+    });
+    $.each(ref.abilities, function(i, ability) {
+        cache[ability] = Math.floor(0.5 * cache.abilities[ability].total - 5);
+    });
+
     $.each(ref.skills, function(skill, values) {
         var ranks = 0;
         var previousRanks = 0;
@@ -62,39 +96,41 @@ function updateStats() {
             if (i + 1 < data.level) {
                 previousRanks = ranks;
             }
-            if ($.inArray(skill, ref.classes[data.levels[i].chosenClass].classSkills) >= 0) {
+            var chosenClass = data.levels[i].chosenClass;
+            if ($.inArray(skill, ref.classes[chosenClass].classSkills) >= 0) {
                 classSkill = true;
             }
         }
-        var bonus = cache[values.ability];
-        bonus += ranks;
+        var natural = cache[values.ability] + ranks;
         if (ranks > 0 && classSkill) {
-            bonus += 3;
+            natural += 3;
         }
-        cache.ranks[skill] = ranks;
-        cache.previousRanks[skill] = previousRanks;
-        cache.classSkills[skill] = classSkill;
-        cache.skills[skill] = bonus;
-        cache.totalRanks += ranks;
+        cache.skills[skill] = {
+            ranks: ranks,
+            previousRanks: previousRanks,
+            classSkill: classSkill,
+            natural: natural,
+            total: natural
+        }
+        cache.skills.totalRanks += ranks;
     });
 
     cache.traits = ref.races[data.race].traits;
-    cache.maxRanks = 0;
-    cache.maxHP = 0;
     for (var i = 0; i < data.level; i++) {
         var hp = data.levels[i].hitDie + cache['con'];
         cache.maxHP += (hp > 0 ? hp : 1);
-        var ranks = ref.classes[data.levels[i].chosenClass].ranks;
-        ranks += cache.natAbilities[ref.classes[data.levels[i].chosenClass].rankAbility];
-        cache.maxRanks += ranks;
+        var chosenClass = ref.classes[data.levels[i].chosenClass];
+        var ranks = chosenClass.ranks + cache.abilities[chosenClass.rankAbility].naturalMod;
+        cache.maxRanks += (ranks > 0 ? ranks : 1);
         if (data.favoredClass === data.levels[i].chosenClass) {
             if (data.levels[i].favoredClassBonus === 'hp') {
                 cache.maxHP += 1;
-            } else if (data.levels[i].favoredClassBonus == 'skill') {
+            } else if (data.levels[i].favoredClassBonus === 'skill') {
                 cache.maxRanks += 1;
             }
         }
     }
+
     $('.update').trigger('update');
 }
 
@@ -201,10 +237,10 @@ function buildPage() {
         pointBuy.createCell().addClass('field').append(scoreInput);
         pointBuy.createCell().addClass('update sep')
             .on('update', function(){
-                var cost = cache.pointBuyCost[ability];
+                var cost = cache.abilities[ability].cost;
                 $(this).text(cost != null ? cost : '?');
             });
-        pointBuy.createCell().addClass('update')
+        pointBuy.createCell().addClass('update sep')
             .on('update', function() {
                 var value = ref.races[data.race][ability];
                 if (i == data.base.bonus) {
@@ -212,23 +248,13 @@ function buildPage() {
                 }
                 $(this).text(formatBonus(value, true));
             });
-        pointBuy.createCell().addClass('update sep')
+        pointBuy.createCell().addClass('update')
             .on('update', function() {
-                var value = cache.abilityScore[ability]
-                value -= data.base[ability];
-                value -= ref.races[data.race][ability];
-                if (i == data.base.bonus) {
-                    value -= ref.races[data.race].statBonus;
-                }
-                $(this).text(formatBonus(value, true));
+                $(this).text(cache.abilities[ability].natural);
             });
         pointBuy.createCell().addClass('update')
             .on('update', function() {
-                $(this).text(cache.abilityScore[ability]);
-            });
-        pointBuy.createCell().addClass('update')
-            .on('update', function() {
-                $(this).text(formatBonus(cache[ability]));
+                $(this).text(formatBonus(cache.abilities[ability].naturalMod));
             });
     });
 
@@ -236,7 +262,7 @@ function buildPage() {
         .on('update', function(){
             var total = 0;
             $.each(ref.abilities, function(i, ability) {
-                var cost = cache.pointBuyCost[ability];
+                var cost = cache.abilities[ability].cost;
                 if (cost == null) {
                     total = "??";
                     return false;
@@ -378,21 +404,30 @@ function buildPage() {
         abilities.createCell().text(ref.abilityShortName[ability]).addClass('head');
         abilities.createCell().addClass('update')
             .on('update', function() {
-                $(this).text(cache.abilityScore[ability]);
+                $(this).text(cache.abilities[ability].natural);
             });
-        abilities.createCell();
+        abilities.createCell().addClass('update')
+            .on('update', function() {
+                var values = cache.abilities[ability];
+                $(this).text(formatBonus(values.total - values.natural - data.temp[ability], true));
+            });
         var tempInput = $(document.createElement('input')).val('0')
             .attr('type', 'text').addClass('update input spinner')
             .change(function() {
+                data.temp[ability] = parseInt(this.value);
                 updateStats();
             })
             .on('update', function() {
+                $(this).val(data.temp[ability]);
             });
         abilities.createCell().addClass('sep field').append(tempInput);
-        abilities.createCell();
         abilities.createCell().addClass('update')
             .on('update', function() {
-                $(this).text(cache[ability]);
+                $(this).text(cache.abilities[ability].total);
+            });
+        abilities.createCell().addClass('update')
+            .on('update', function() {
+                $(this).text(formatBonus(cache[ability]));
             });
     });
 
@@ -402,7 +437,7 @@ function buildPage() {
         skills.createCell().addClass('alignLeft').text(values.name + (values.untrained ? '' : '*'))
         skills.createCell().addClass('update sep')
             .on('update', function() {
-                $(this).html(formatBonus(cache.skills[skill], (values.untrained ? false : '&ndash;')));
+                $(this).html(formatBonus(cache.skills[skill].total, (values.untrained ? false : '&ndash;')));
             });
         skills.createCell().addClass('update')
             .on('update', function() {
@@ -410,8 +445,8 @@ function buildPage() {
             });
         skills.createCell().addClass('update')
             .on('update', function() {
-                if (cache.classSkills[skill]) {
-                    if (cache.ranks[skill] > 0) {
+                if (cache.skills[skill].classSkill) {
+                    if (cache.skills[skill].ranks > 0) {
                         $(this).text('+3');
                     } else {
                         $(this).html('&ndash;');
@@ -422,20 +457,17 @@ function buildPage() {
             });
         skills.createCell().addClass('update')
             .on('update', function() {
-                var bonus = cache.skills[skill] - cache.ranks[skill] - cache[values.ability];
-                if (cache.ranks[skill] > 0 && cache.classSkills[skill]) {
-                    bonus -= 3;
-                }
-                $(this).text(formatBonus(bonus, true));
+                var values = cache.skills[skill];
+                $(this).text(formatBonus(values.total - values.natural, true));
             });
         var rankInput = $(document.createElement('input')).val('')
             .attr('type', 'text').addClass('update input spinner')
             .change(function() {
-                data.levels[data.level - 1].ranks[skill] = parseInt(this.value) - cache.previousRanks[skill];
+                data.levels[data.level - 1].ranks[skill] = parseInt(this.value) - cache.skills[skill].previousRanks;
                 updateStats();
             })
             .on('update', function() {
-                $(this).val(cache.ranks[skill]);
+                $(this).val(cache.skills[skill].ranks);
             });
         skills.createCell().addClass('field').append(rankInput);
     });
