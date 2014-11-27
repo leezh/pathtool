@@ -2,10 +2,61 @@ body {
     background-color: #F8F8F8;
     color: #3333333;
     font-family: 'Open Sans', sans-serif;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: normal;
     line-height: 14px;
-    margin: 15px;
+    margin: 0;
+    padding: 15px;
+}
+
+.editPanel {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 15px;
+    overflow: auto;
+}
+
+.editPanel .wrapper {
+    width: 400px;
+    border: 1px solid #CCCCCC;
+    background: #EEEEEE;
+    padding: 0 15px;
+    margin: 0 auto;
+    overflow: auto;
+}
+
+.editPanelClose {
+    float: right;
+    margin-right: -15px;
+    border-right: none;
+    border-top: none;
+}
+
+.sheetPanel {
+    width: 795px;
+    border: 1px solid #CCCCCC;
+    background: #FFFFFF;
+    padding: 0 15px;
+    margin: 0 auto;
+    overflow: auto;
+}
+
+.leftColumn {
+    width: 340px;
+    float: left;
+}
+
+.rightColumn {
+    width: 440px;
+    float: right;
+}
+
+p, h1 {
+    margin: 15px 0;
 }
 
 label {
@@ -20,9 +71,10 @@ input, select, textarea {
     display: inline-block;
     font-size: inherit;
     width: auto;
-    height: 18px;
+    font-size: 10px;
+    height: 20px;
     padding: 1px 5px;
-    box-sizing: content-box;
+    box-sizing: border-box;
 }
 
 input::-moz-focus-inner {
@@ -36,6 +88,14 @@ input[type=radio] {
     margin: 0 3px 0 10px;
     height: auto;
     vertical-align: text-top;
+    background: transparent;
+}
+
+input[type=range] {
+    padding: 5px;
+    border: none;
+    margin: 0;
+    background: transparent;
 }
 
 input + input {
@@ -68,11 +128,15 @@ ul li:nth-child(even) {
 }
 
 table .field {
-    padding: 2px;
+    padding: 4px;
 }
 
 table .sep {
     border-right: 1px solid #CCCCCC;
+}
+
+.head {
+    font-weight: bold;
 }
 
 .input {
@@ -85,24 +149,33 @@ table .sep {
     padding: 1px;
 }
 
-.head {
-    font-weight: bold;
+.tiny {
+    font-size: 9px;
 }
 
-.sheetPanel {
-    float: left;
-    width: 490px;
-    border: 1px solid #CCCCCC;
-    background: #FFFFFF;
-    padding: 5px 15px;
+.width-1-6 {
+    display: table-cell;
+    width: 16.66%;
 }
-
-.editPanel {
-    float: right;
-    width: 440px;
-    border: 1px solid #CCCCCC;
-    background: #EEEEEE;
-    padding: 5px 15px;
+.width-2-6 {
+    display: table-cell;
+    width: 33.33%;
+}
+.width-3-6 {
+    display: table-cell;
+    width: 50%;
+}
+.width-4-6 {
+    display: table-cell;
+    width: 66.66%;
+}
+.width-5-6 {
+    display: table-cell;
+    width: 83.33%;
+}
+.width-6-6 {
+    display: table-cell;
+    width: 100%;
 }
 
 .fullWidth {

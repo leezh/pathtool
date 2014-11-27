@@ -127,14 +127,26 @@ function SelectBuilder(element) {
 }
 
 function buildPage() {
-    $('#startingInfo').addClass('update')
-        .on('update', function() {
-            if (data.level > 1) {
-                $(this).hide();
-            } else {
-                $(this).show();
-            }
-        });
+    $('.editPanel').each(function() {
+        var panel = $(this);
+        panel.wrapInner($(document.createElement('div')).addClass('wrapper'));
+        var button = $(document.createElement('input'))
+            .attr('type', 'button').addClass('editPanelClose').val('Close')
+            .click(function() {
+                panel.hide();
+            });
+        panel.find('.wrapper').prepend(button);
+    });
+
+    $('#infoEdit')
+        .click(function() {
+            $('#infoPanel').show();
+        })
+
+    $('#levelEdit')
+        .click(function() {
+            $('#levelPanel').show();
+        })
 
     $('.selectAbility').each(function() {
         var builder = new SelectBuilder($(this));
@@ -174,7 +186,7 @@ function buildPage() {
         });
 
     var pointBuy = new TableBuilder($('#pointBuy'));
-    pointBuy.createRow();
+    pointBuy.createRow().addClass('tiny');
     pointBuy.createCell();
     pointBuy.createCell().text('Points').addClass('head');
     pointBuy.createCell().text('Cost').addClass('head sep');
@@ -280,9 +292,38 @@ function buildPage() {
                 $(this).hide();
             }
         });
+
     $('#levelDisplay').addClass('update')
         .on('update', function(){
             $(this).text(data.level);
+        });
+
+    $('#levelSelect').addClass('update')
+        .change(function() {
+            var val = parseInt(this.value);
+            if (val > 0 && val <= 20) {
+                data.level = val;
+                updateStats();
+            }
+        })
+        .on('update', function() {
+            this.max = data.levels.length;
+            this.value = data.level;
+        });
+
+    $('#levelUp').addClass('update')
+        .click(function() {
+            if (data.level < 20) {
+                data.level++;
+                updateStats();
+            }
+        })
+        .on('update', function() {
+            if (data.level >= 20) {
+                $(this).hide();
+            } else {
+                $(this).show();
+            }
         });
 
     $('#selectLevelClass').addClass('update')
@@ -351,38 +392,8 @@ function buildPage() {
             }
         });
 
-    $('#levelUp').addClass('update')
-        .click(function() {
-            if (data.level < 20) {
-                data.level++;
-                updateStats();
-            }
-        })
-        .on('update', function() {
-            if (data.level >= 20) {
-                $(this).hide();
-            } else {
-                $(this).show();
-            }
-        });
-
-    $('#levelDown').addClass('update')
-        .click(function() {
-            if (data.level > 1) {
-                data.level--;
-                updateStats();
-            }
-        })
-        .on('update', function() {
-            if (data.level > 1) {
-                $(this).show();
-            } else {
-                $(this).hide();
-            }
-        });
-
     var abilities = new TableBuilder($('#abilities'));
-    abilities.createRow();
+    abilities.createRow().addClass('tiny');
     abilities.createCell();
     abilities.createCell().text('Score').addClass('head');
     abilities.createCell().text('Mod').addClass('head');
@@ -400,7 +411,7 @@ function buildPage() {
     });
 
     var skills = new TableBuilder($('#skillRanks'));
-    skills.createRow();
+    skills.createRow().addClass('tiny');
     skills.createCell().text('Skill').addClass('head alignLeft');
     skills.createCell().text('Bonus').addClass('head sep');
     skills.createCell().text('Ability').addClass('head');

@@ -13,71 +13,107 @@
     <script src="skills.js"></script>
 </head>
 <body>
-    <div id="charSheet" class="sheetPanel">
-        <p>
-            <table id="abilities"></table>
-        </p>
-        <p>
-            <table id="skillRanks" class="fullWidth"></table>
-        </p>
-        <p>
-            <label>Max Skill Ranks:</label>
-            <input id="maxRanks" type="text" class="input" readonly />
-            <span class="floatRight">
-                <label>Skill Ranks Spent:</label>
-                <input id="ranksTotal" type="text" class="input" readonly />
-            </span>
-        </p>
+    <div id="charPanel" class="sheetPanel">
+        <div class="leftColumn">
+            <p>
+                <table class="fullWidth">
+                    <tr>
+                        <td class="alignLeft">
+                            <input id="infoEdit" type="button" value="Edit Information" />
+                            <input id="levelEdit" type="button" value="Edit Level" />
+                        </td>
+                    </tr>
+                </table>
+            </p>
+            <p>
+                <table class="fullWidth">
+                    <tr>
+                        <td class="head width-1-6">Name</td>
+                        <td class="field" colspan="3"></td>
+                    </tr>
+                    <tr>
+                        <td class="head">Class</td>
+                        <td class="field" colspan="3"></td>
+                    </tr>
+                    <tr>
+                        <td class="head">Race</td>
+                        <td class="field width-2-6"></td>
+                        <td class="head width-1-6">Size</td>
+                        <td class="field width-2-6"></td>
+                    </tr>
+                    <tr>
+                        <td class="head">Deity</td>
+                        <td class="field"></td>
+                        <td class="head">Alignment</td>
+                        <td class="field"></td>
+                    </tr>
+                </table>
+            </p>
+            <p>
+                <table id="abilities"></table>
+            </p>
+        </div>
+        <div class="rightColumn">
+            <p>
+                <table id="skillRanks" class="fullWidth"></table>
+            </p>
+            <p>
+                <label>Max Skill Ranks:</label>
+                <input id="maxRanks" type="text" class="input" readonly />
+                <span class="floatRight">
+                    <label>Skill Ranks Spent:</label>
+                    <input id="ranksTotal" type="text" class="input" readonly />
+                </span>
+            </p>
+        </div>
         <ul id="traits" class="floatLeft">
             <li class="head">Traits</li>
         </ul>
     </div>
-    <div id="baseEdit" class="editPanel">
-        <div id="startingInfo">
-            <h1>Starting Information</h1>
-            <p>
-                <label for="selectRace">Race:</label>
-                <select id="selectRace"></select>
-                <span id="spanStatBonus" class="floatRight">
-                    <label for="selectStatBonus">Bonus:</label>
-                    <select id="selectStatBonus" class="selectAbility"></select>
-                </span>
-            </p>
-            <p>
-                <table id="pointBuy" class="fullWidth"></table>
-            </p>
-            <p>
-                <label for="pointBuyTotal">Total Cost:</label>
-                <input id="pointBuyTotal" type="text" class="input" readonly />
-            </p>
-            <p>
-                <label for="selectFavoredClass">Favoured Class:</label>
-                <select id="selectFavoredClass" class="selectClass"></select>
-                <span id="spanMultitalentedClass" class="floatRight">
-                    <label for="selectMultitalentedClass">Multitalented Class:</label>
-                    <select id="selectMultitalentedClass" class="selectClass"></select>
-                </span>
-            </p>
-        </div>
-        <div id="levelInfo">
-            <h1>Level <span id="levelDisplay"></span></h1>
-            <p>
-                <label for="selectLevelClass">Class:</label>
-                <select id="selectLevelClass" class="selectClass"></select>
-            </p>
-            <p>
-                <label for="hitDieValue">Hit Die d<span id="classHitDie"></span>:</label>
-                <input id="hitDieValue" type="text" class="input" /><input id="hitDieRoll" type="button" value="Reroll" />
-                <span id="spanFavoredBonus" class="floatRight">
-                    <label>Favoured Class:</label>
-                    <input id="favoredBonusHP" type="radio" name="favoredBonus" value="hp" /><label for="favoredBonusHP">+1 HP</label>
-                    <input id="favoredBonusSkill" type="radio" name="favoredBonus" value="skill" /><label for="favoredBonusSkill">+1 Skill Rank</label>
-                </span>
-            </p>
-            <p>
-                <input id="levelUp" type="button" value="Level Up" /><input id="levelDown" type="button" value="Level Down" />
-            </p>
-        </div>
+    <div id="infoPanel" class="editPanel" style="display:none;">
+        <h1>Character Information</h1>
+        <p>
+            <label for="selectRace">Race:</label>
+            <select id="selectRace"></select>
+            <span id="spanStatBonus" class="floatRight">
+                <label for="selectStatBonus">Bonus:</label>
+                <select id="selectStatBonus" class="selectAbility"></select>
+            </span>
+        </p>
+        <p>
+            <table id="pointBuy" class="fullWidth"></table>
+        </p>
+        <p>
+            <label for="pointBuyTotal">Total Cost:</label>
+            <input id="pointBuyTotal" type="text" class="input" readonly />
+        </p>
+        <p>
+            <label for="selectFavoredClass">Favoured Class:</label>
+            <select id="selectFavoredClass" class="selectClass"></select>
+            <span id="spanMultitalentedClass" class="floatRight">
+                <label for="selectMultitalentedClass">Multitalented Class:</label>
+                <select id="selectMultitalentedClass" class="selectClass"></select>
+            </span>
+        </p>
+    </div>
+    <div id="levelPanel" class="editPanel" style="display:none;">
+        <h1>Level <span id="levelDisplay"></span></h1>
+        <p>
+            <input id="levelUp" type="button" value="Level Up" class="width-1-6" /><input id="levelSelect" type="range" step="1" min="1" max="1" value="1" class="width-5-6" />
+        </p>
+        <p>
+            <label for="selectLevelClass">Class:</label>
+            <select id="selectLevelClass" class="selectClass"></select>
+        </p>
+        <p>
+            <label for="hitDieValue">Hit Die d<span id="classHitDie"></span>:</label>
+            <input id="hitDieValue" type="text" class="input" /><input id="hitDieRoll" type="button" value="Reroll" />
+            <span id="spanFavoredBonus" class="floatRight">
+                <label>Favoured Class:</label>
+                <input id="favoredBonusHP" type="radio" name="favoredBonus" value="hp" /><label for="favoredBonusHP">+1 HP</label>
+                <input id="favoredBonusSkill" type="radio" name="favoredBonus" value="skill" /><label for="favoredBonusSkill">+1 Skill Rank</label>
+            </span>
+        </p>
     </div>
 </body>
 </html>
