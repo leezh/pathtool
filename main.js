@@ -190,7 +190,7 @@ function buildPage() {
         pointBuy.createRow();
         pointBuy.createCell().text(ref.abilityShortName[ability]).addClass('head');
         var scoreInput = $(document.createElement('input')).val(data.base[ability])
-            .attr('type', 'text').addClass('update input')
+            .attr('type', 'text').addClass('update input spinner')
             .change(function() {
                 data.base[ability] = parseInt(this.value);
                 updateStats();
@@ -198,19 +198,7 @@ function buildPage() {
             .on('update', function() {
                 $(this).val(data.base[ability]);
             });
-        var scoreAdd = $(document.createElement('input')).val('+')
-            .attr('type', 'button').addClass('inputTiny')
-            .click(function() {
-                data.base[ability]++;
-                updateStats();
-            });
-        var scoreMinus = $(document.createElement('input')).val('-')
-            .attr('type', 'button').addClass('inputTiny')
-            .click(function() {
-                data.base[ability]--;
-                updateStats();
-            });
-        pointBuy.createCell().addClass('field').append(scoreMinus, scoreInput, scoreAdd);
+        pointBuy.createCell().addClass('field').append(scoreInput);
         pointBuy.createCell().addClass('update sep')
             .on('update', function(){
                 var cost = cache.pointBuyCost[ability];
@@ -393,7 +381,14 @@ function buildPage() {
                 $(this).text(cache.abilityScore[ability]);
             });
         abilities.createCell();
-        abilities.createCell().addClass('sep');
+        var tempInput = $(document.createElement('input')).val('0')
+            .attr('type', 'text').addClass('update input spinner')
+            .change(function() {
+                updateStats();
+            })
+            .on('update', function() {
+            });
+        abilities.createCell().addClass('sep field').append(tempInput);
         abilities.createCell();
         abilities.createCell().addClass('update')
             .on('update', function() {
@@ -434,7 +429,7 @@ function buildPage() {
                 $(this).text(formatBonus(bonus, true));
             });
         var rankInput = $(document.createElement('input')).val('')
-            .attr('type', 'text').addClass('update input')
+            .attr('type', 'text').addClass('update input spinner')
             .change(function() {
                 data.levels[data.level - 1].ranks[skill] = parseInt(this.value) - cache.previousRanks[skill];
                 updateStats();
@@ -442,19 +437,7 @@ function buildPage() {
             .on('update', function() {
                 $(this).val(cache.ranks[skill]);
             });
-        var rankAdd = $(document.createElement('input')).val('+')
-            .attr('type', 'button').addClass('inputTiny')
-            .click(function() {
-                data.levels[data.level - 1].ranks[skill] = cache.ranks[skill] - cache.previousRanks[skill] + 1;
-                updateStats();
-            });
-        var rankMinus = $(document.createElement('input')).val('-')
-            .attr('type', 'button').addClass('inputTiny')
-            .click(function() {
-                data.levels[data.level - 1].ranks[skill] = cache.ranks[skill] - cache.previousRanks[skill] - 1;
-                updateStats();
-            });
-        skills.createCell().addClass('field').append(rankMinus, rankInput, rankAdd);
+        skills.createCell().addClass('field').append(rankInput);
     });
 
     $('#maxRanks').addClass('update')
@@ -467,7 +450,6 @@ function buildPage() {
             $(this).val(cache.totalRanks);
         });
 
-
     var traits = $('#traits');
     traits.addClass('update')
         .on('update', function() {
@@ -476,6 +458,23 @@ function buildPage() {
                 traits.append($(document.createElement('li')).addClass('item').text(trait));
             });
         });
+
+    $('input.spinner').each(function() {
+        var spinner = $(this);
+        var up = $(document.createElement('input')).val('+')
+            .attr('type', 'button').addClass('inputTiny')
+            .click(function() {
+                spinner.val(parseInt(spinner.val()) + 1);
+                spinner.click();
+            });
+        var down = $(document.createElement('input')).val('-')
+            .attr('type', 'button').addClass('inputTiny')
+            .click(function() {
+                spinner.val(parseInt(spinner.val()) - 1);
+                spinner.click();
+            });
+        spinner.before(down).after(up);
+    });
 }
 
 $(document).ready(function() {
