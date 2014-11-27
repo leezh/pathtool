@@ -186,14 +186,6 @@ function buildPage() {
         });
 
     var pointBuy = new TableBuilder($('#pointBuy'));
-    pointBuy.createRow().addClass('tiny');
-    pointBuy.createCell();
-    pointBuy.createCell().text('Points').addClass('head');
-    pointBuy.createCell().text('Cost').addClass('head sep');
-    pointBuy.createCell().text('Racial').addClass('head');
-    pointBuy.createCell().text('Misc').addClass('head sep');
-    pointBuy.createCell().text('Score').addClass('head');
-    pointBuy.createCell().text('Mod').addClass('head');
     $.each(ref.abilities, function(i, ability) {
         pointBuy.createRow();
         pointBuy.createCell().text(ref.abilityShortName[ability]).addClass('head');
@@ -393,10 +385,6 @@ function buildPage() {
         });
 
     var abilities = new TableBuilder($('#abilities'));
-    abilities.createRow().addClass('tiny');
-    abilities.createCell();
-    abilities.createCell().text('Score').addClass('head');
-    abilities.createCell().text('Mod').addClass('head');
     $.each(ref.abilities, function(i, ability) {
         abilities.createRow();
         abilities.createCell().text(ref.abilityShortName[ability]).addClass('head');
@@ -404,6 +392,9 @@ function buildPage() {
             .on('update', function() {
                 $(this).text(cache.abilityScore[ability]);
             });
+        abilities.createCell();
+        abilities.createCell().addClass('sep');
+        abilities.createCell();
         abilities.createCell().addClass('update')
             .on('update', function() {
                 $(this).text(cache[ability]);
@@ -411,13 +402,6 @@ function buildPage() {
     });
 
     var skills = new TableBuilder($('#skillRanks'));
-    skills.createRow().addClass('tiny');
-    skills.createCell().text('Skill').addClass('head alignLeft');
-    skills.createCell().text('Bonus').addClass('head sep');
-    skills.createCell().text('Ability').addClass('head');
-    skills.createCell().text('Trained').addClass('head');
-    skills.createCell().text('Misc').addClass('head');
-    skills.createCell().text('Ranks').addClass('head');
     $.each(ref.skills, function(skill, values) {
         skills.createRow();
         skills.createCell().addClass('alignLeft').text(values.name + (values.untrained ? '' : '*'))
@@ -483,15 +467,6 @@ function buildPage() {
             $(this).val(cache.totalRanks);
         });
 
-    var skills = new TableBuilder($('#skills'));
-    skills.createRow();
-    skills.createCell().text('Skill').addClass('head');
-    skills.createCell().text('Bonus').addClass('head');
-    $.each(ref.skills, function(skill, values) {
-        skills.createRow();
-        skills.createCell().text(values.name + (values.untrained ? '' : '*'))
-        skills.createCell();
-    });
 
     var traits = $('#traits');
     traits.addClass('update')
