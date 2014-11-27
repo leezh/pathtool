@@ -48,13 +48,15 @@ function updateStats() {
     }
 
     cache = {
+        traits: ref.races[data.race].traits,
         abilities: {},
         totalPointBuyCost: 0,
         skills: {},
         totalRanks: 0,
         maxRanks: 0,
-        maxHP: 0
+        maxHP: 0,
     };
+
     $.each(ref.abilities, function(i, ability) {
         var score = data.base[ability];
         score += ref.races[data.race][ability];
@@ -80,9 +82,6 @@ function updateStats() {
                 cache.abilities.totalCost = null;
             }
         }
-    });
-    $.each(ref.abilities, function(i, ability) {
-        cache[ability] = Math.floor(0.5 * cache.abilities[ability].total - 5);
     });
 
     $.each(ref.skills, function(skill, values) {
@@ -112,10 +111,9 @@ function updateStats() {
             natural: natural,
             total: natural
         }
-        cache.skills.totalRanks += ranks;
+        cache.totalRanks += ranks;
     });
 
-    cache.traits = ref.races[data.race].traits;
     for (var i = 0; i < data.level; i++) {
         var hp = data.levels[i].hitDie + cache['con'];
         cache.maxHP += (hp > 0 ? hp : 1);
@@ -131,6 +129,9 @@ function updateStats() {
         }
     }
 
+    $.each(ref.abilities, function(i, ability) {
+        cache[ability] = Math.floor(0.5 * cache.abilities[ability].total - 5);
+    });
     $('.update').trigger('update');
 }
 
