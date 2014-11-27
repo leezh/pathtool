@@ -185,15 +185,11 @@ table .sep {
 .floatLeft {
     float: left;
     clear: left;
-    margin-bottom: 1em;
-    margin-right: 1em;
 }
 
 .floatRight {
     float: right;
     clear: right;
-    margin-bottom: 1em;
-    margin-left: 1em;
 }
 
 .alignLeft {
