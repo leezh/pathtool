@@ -84,6 +84,10 @@ function updateStats() {
         }
     });
 
+    $.each(ref.abilities, function(i, ability) {
+        cache[ability] = Math.floor(0.5 * cache.abilities[ability].total - 5);
+    });
+
     $.each(ref.skills, function(skill, values) {
         var ranks = 0;
         var previousRanks = 0;
@@ -129,9 +133,6 @@ function updateStats() {
         }
     }
 
-    $.each(ref.abilities, function(i, ability) {
-        cache[ability] = Math.floor(0.5 * cache.abilities[ability].total - 5);
-    });
     $('.update').trigger('update');
 }
 
