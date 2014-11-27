@@ -465,13 +465,13 @@ function buildPage() {
             .attr('type', 'button').addClass('inputTiny')
             .click(function() {
                 spinner.val(parseInt(spinner.val()) + 1);
-                spinner.click();
+                spinner.change();
             });
         var down = $(document.createElement('input')).val('-')
             .attr('type', 'button').addClass('inputTiny')
             .click(function() {
                 spinner.val(parseInt(spinner.val()) - 1);
-                spinner.click();
+                spinner.change();
             });
         spinner.before(down).after(up);
     });
