@@ -4,13 +4,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>pathtool: Pathfinder Character Sheet</title>
-    <link rel="stylesheet" href="style.css" />
-    <script src="jquery.min.js"></script>
-    <script src="main.js"></script>
-    <script src="basic.js"></script>
-    <script src="races.js"></script>
-    <script src="classes.js"></script>
-    <script src="skills.js"></script>
+    <link rel="stylesheet" href="/static/charsheet.css" />
+    <script src="/static/jquery.min.js"></script>
+    <script src="/static/charsheet/main.js"></script>
+    <script src="/static/charsheet/basic.js"></script>
+    <script src="/static/charsheet/races.js"></script>
+    <script src="/static/charsheet/classes.js"></script>
+    <script src="/static/charsheet/skills.js"></script>
 </head>
 <body>
     <div id="charPanel" class="sheetPanel">
@@ -33,7 +33,7 @@
                     </tr>
                     <tr>
                         <td class="head">Class</td>
-                        <td class="field" colspan="3"></td>
+                        <td id="dispClasses" class="field" colspan="3"></td>
                     </tr>
                     <tr>
                         <td class="head">Race</td>
